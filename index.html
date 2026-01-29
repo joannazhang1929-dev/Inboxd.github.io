@@ -1,595 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inboxd | Write Professional Emails Instantly with AI | Context-Aware AI Email Replies | Best Professional AI Email Writer Tool</title>
-    <link rel="icon" href="./inboxdassests/favicon.png" sizes="32x32">
-    <link rel="icon" href="./inboxdassests/favicon.png" sizes="16x16">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inboxd | Write Professional Emails Instantly with AI</title>
+<link rel="icon" href="./inboxdassests/favicon.png" sizes="32x32">
+<link rel="icon" href="./inboxdassests/favicon.png" sizes="16x16">
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Crimson+Text:wght@400;600&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        :root {
-            --primary-blue: #0B4B99;
-            --dark-blue: #083D7E;
-            --light-cream: #F5F3EE;
-            --white: #FFFFFF;
-            --text-dark: #2A2A2A;
-        }
-        
-        body {
-            font-family: 'Crimson Text', serif;
-            background-color: var(--light-cream);
-            color: var(--text-dark);
-            overflow-x: hidden;
-        }
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Crimson+Text:wght@400;600&display=swap');
 
-        /* Scroll animation CSS */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
+* { margin:0; padding:0; box-sizing:border-box; }
 
-        .reveal.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Navigation */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 2rem 4rem;
-            position: relative;
-            z-index: 100;
-            margin: 1rem 4rem 0 4rem;
-        }
+:root {
+  --primary-blue: #0B4B99;
+  --dark-blue: #083D7E;
+  --light-cream: #F5F3EE;
+  --white: #FFFFFF;
+  --text-dark: #2A2A2A;
+}
 
-        .logo {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            flex-shrink: 0;
-        }
+body {
+  font-family: 'Crimson Text', serif;
+  background-color: var(--light-cream);
+  color: var(--text-dark);
+  overflow-x: hidden;
+}
 
-        .logo-image {
-            height: 80px;
-            width: auto;
-        }
+/* Scroll animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.show {
+  opacity: 1;
+  transform: translateY(0);
+}
 
-        .logo-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--primary-blue);
-            letter-spacing: 2px;
-            text-align: center;
-        }
+/* Navigation */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 4rem;
+  position: relative;
+  z-index: 100;
+  margin: 1rem 4rem 0 4rem;
+}
 
-        .nav-links {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            list-style: none;
-            background: var(--white);
-            padding: 1.2rem 4rem;
-            border: 3px solid var(--primary-blue);
-            border-radius: 50px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            width: 100%;
-            margin-left: 4rem;
-        }
+.logo { display:flex; flex-direction: column; align-items:center; gap:0.5rem; flex-shrink:0; }
+.logo-image { height:80px; width:auto; }
+.logo-text { font-family:'Playfair Display', serif; font-size:1.1rem; font-weight:600; color:var(--primary-blue); letter-spacing:2px; text-align:center; }
 
-        .nav-links a {
-            text-decoration: none;
-            color: var(--primary-blue);
-            font-size: 1.2rem;
-            font-weight: 400;
-            transition: opacity 0.3s;
-            border-bottom: 2px solid transparent;
-        }
+.nav-links {
+  display:flex; justify-content:space-between; align-items:center;
+  list-style:none; background:var(--white); padding:1.2rem 4rem;
+  border:3px solid var(--primary-blue); border-radius:50px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05); width:100%; margin-left:4rem;
+}
+.nav-links a {
+  text-decoration:none; color:var(--primary-blue); font-size:1.2rem; font-weight:400;
+  transition:opacity 0.3s; border-bottom:2px solid transparent;
+}
+.nav-links a:hover { opacity:0.7; border-bottom:2px solid var(--primary-blue); }
 
-        .nav-links a:hover {
-            opacity: 0.7;
-            border-bottom: 2px solid var(--primary-blue);
-        }
+/* Hero Section */
+.hero { display:grid; grid-template-columns:1fr 1fr; gap:4rem; padding:6rem 4rem; align-items:center; min-height:80vh; background-color:var(--light-cream); }
 
-        /* Hero Section */
-        .hero {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            padding: 6rem 4rem;
-            align-items: center;
-            min-height: 80vh;
-            background-color: var(--light-cream);
-        }
-        
-        .hero-content h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 5.5rem;
-            font-weight: 400;
-            line-height: 1.2;
-            color: var(--primary-blue);
-            margin-bottom: 3rem;
-        }
-        
-        .cta-button {
-            display: inline-block;
-            padding: 1.2rem 3rem;
-            border: 2px solid var(--primary-blue);
-            border-radius: 50px;
-            text-decoration: none;
-            color: var(--primary-blue);
-            font-size: 1.1rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: all 0.3s;
-            background: transparent;
-        }
-        
-        .cta-button:hover {
-            background: var(--primary-blue);
-            color: var(--white);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(11, 75, 153, 0.3);
-        }
-        
-        .hero-mockup {
-            position: relative;
-            padding: 2rem;
-        }
-        
-        .video-container {
-            background: var(--primary-blue);
-            border-radius: 20px;
-            padding: 3rem;
-            box-shadow: 0 20px 60px rgba(11, 75, 153, 0.3);
-            transform: perspective(1000px) rotateY(-5deg);
-            transition: transform 0.5s;
-        }
-        
-        .video-container:hover {
-            transform: perspective(1000px) rotateY(0deg);
-        }
-        
-        .video-container video {
-            width: 100%;
-            border-radius: 10px;
-            display: block;
-        }
-        
-        .download-buttons {
-            display: flex;
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-        
-        .download-btn {
-            background: #000;
-            color: var(--white);
-            padding: 1rem 2rem;
-            border-radius: 10px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transition: transform 0.3s;
-            font-weight: 600;
-        }
-        
-        .download-btn:hover {
-            transform: translateY(-3px);
-        }
+.hero-content h1 { font-family:'Playfair Display', serif; font-size:5.5rem; font-weight:400; line-height:1.2; color:var(--primary-blue); margin-bottom:3rem; }
 
-        /* About Section */
-        .about {
-            background: var(--light-cream);
-            padding: 8rem 4rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6rem;
-            align-items: center;
-        }
-        
-        .about-image-container {
-            width: 100%;
-            max-width: 450px;
-            margin: 0 auto;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .blue-background-shape {
-            width: 200%;
-            height: auto;
-            display: block;
-        }
-        
-        .white-logo-overlay {
-            position: absolute;
-            width: 100%;
-            height: auto;
-            top: 55%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        
-        .about-content h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            color: var(--primary-blue);
-            margin-bottom: 2rem;
-            font-weight: 400;
-        }
-        
-        .about-content p {
-            font-size: 1.3rem;
-            line-height: 1.8;
-            color: var(--text-dark);
-        }
+.cta-button {
+  display:inline-block; padding:1.2rem 3rem; border:2px solid var(--primary-blue); border-radius:50px;
+  text-decoration:none; color:var(--primary-blue); font-size:1.1rem; font-weight:600; letter-spacing:1px; text-transform:uppercase;
+  transition:all 0.3s; background:transparent;
+}
+.cta-button:hover { background:var(--primary-blue); color:var(--white); transform:translateY(-2px); box-shadow:0 4px 15px rgba(11,75,153,0.3); }
 
-        /* Features Section */
-        .features {
-            background: var(--primary-blue);
-            padding: 8rem 4rem;
-            color: var(--light-cream);
-        }
-        
-        .features h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            text-align: center;
-            margin-bottom: 6rem;
-            font-weight: 400;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 4rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .feature-card {
-            text-align: center;
-        }
-        
-        .feature-icon {
-            width: 120px;
-            height: 120px;
-            background: var(--light-cream);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 2rem;
-            transition: transform 0.3s;
-        }
-        
-        .feature-card:hover .feature-icon {
-            transform: scale(1.1) rotate(5deg);
-        }
-        
-        .feature-icon svg {
-            width: 50px;
-            height: 50px;
-            stroke: var(--primary-blue);
-            fill: none;
-            stroke-width: 2;
-        }
-        
-        .feature-card p {
-            font-size: 1.2rem;
-            line-height: 1.7;
-        }
+.hero-mockup { position:relative; padding:2rem; }
+.video-container {
+  background: var(--primary-blue); border-radius:20px; padding:3rem; box-shadow:0 20px 60px rgba(11,75,153,0.3);
+  transform: perspective(1000px) rotateY(-5deg); transition: transform 0.5s;
+}
+.video-container:hover { transform: perspective(1000px) rotateY(0deg); }
+.video-container video { width:100%; border-radius:10px; display:block; }
 
-        /* Reviews Section */
-        .reviews {
-            background: var(--light-cream);
-            padding: 8rem 4rem;
-        }
-        
-        .reviews h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            color: var(--primary-blue);
-            margin-bottom: 6rem;
-        }
-        
-        .review-card {
-            border-top: 1px solid #CCC;
-            padding: 3rem 0;
-            display: grid;
-            grid-template-columns: 200px 1fr;
-            gap: 4rem;
-        }
-        
-        .reviewer-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--text-dark);
-        }
-        
-        .review-text {
-            font-size: 1.3rem;
-            line-height: 1.7;
-            color: var(--text-dark);
-        }
+.download-buttons { display:flex; gap:1.5rem; margin-top:3rem; }
+.download-btn { background:#000; color:var(--white); padding:1rem 2rem; border-radius:10px; text-decoration:none; display:flex; align-items:center; gap:1rem; transition:transform 0.3s; font-weight:600; }
+.download-btn:hover { transform:translateY(-3px); }
 
-        /* About Company Section */
-        .about-company {
-            background: var(--light-cream);
-            padding: 8rem 4rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6rem;
-            align-items: center;
-        }
-        
-        .about-company h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            color: var(--primary-blue);
-            margin-bottom: 2rem;
-            font-weight: 400;
-            text-transform: uppercase;
-        }
-        
-        .about-company p {
-            font-size: 1.3rem;
-            line-height: 1.8;
-            color: var(--text-dark);
-            margin-bottom: 1.5rem;
-        }
-        
-        .about-illustration {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .about-company-image {
-            width: 100%;
-            max-width: 500px;
-            height: auto;
-            display: block;
-        }
+/* About Section */
+.about { background:var(--light-cream); padding:8rem 4rem; display:grid; grid-template-columns:1fr 1fr; gap:6rem; align-items:center; }
+.about-image-container { width:100%; max-width:450px; margin:0 auto; position:relative; display:flex; align-items:center; justify-content:center; }
+.blue-background-shape { width:200%; height:auto; display:block; }
+.white-logo-overlay { position:absolute; width:100%; height:auto; top:55%; left:50%; transform:translate(-50%,-50%); }
+.about-content h2 { font-family:'Playfair Display', serif; font-size:3.5rem; color:var(--primary-blue); margin-bottom:2rem; font-weight:400; }
+.about-content p { font-size:1.3rem; line-height:1.8; color:var(--text-dark); }
 
-        /* Contact Section */
-        .contact {
-            background: var(--primary-blue);
-            padding: 8rem 4rem;
-            color: var(--light-cream);
-        }
-        
-        .contact-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .contact h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            margin-bottom: 4rem;
-            font-weight: 400;
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-        
-        .contact-logo {
-            height: 70px;
-            width: auto;
-        }
-        
-        .contact-info h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-        }
-        
-        .contact-info p {
-            font-size: 1.3rem;
-            margin-bottom: 3rem;
-        }
-        
-        .contact-info a {
-            color: var(--light-cream);
-            text-decoration: underline;
-            font-size: 1.2rem;
-            transition: opacity 0.3s;
-        }
-        
-        .contact-info a:hover {
-            opacity: 0.7;
-        }
-        
-        .social-links {
-            display: flex;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        
-        .social-icon {
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s;
-        }
-        
-        .social-icon:hover {
-            transform: scale(1.2);
-        }
-        
-        .social-icon svg {
-            width: 30px;
-            height: 30px;
-            fill: var(--light-cream);
-        }
+/* Features Section */
+.features { background:var(--primary-blue); padding:8rem 4rem; color:var(--light-cream); }
+.features h2 { font-family:'Playfair Display', serif; font-size:3.5rem; text-align:center; margin-bottom:6rem; font-weight:400; }
+.features-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:4rem; max-width:1400px; margin:0 auto; }
+.feature-card { text-align:center; }
+.feature-icon { width:120px; height:120px; background:var(--light-cream); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 2rem; transition:transform 0.3s; }
+.feature-card:hover .feature-icon { transform: scale(1.1) rotate(5deg); }
+.feature-icon svg { width:50px; height:50px; stroke:var(--primary-blue); fill:none; stroke-width:2; }
+.feature-card p { font-size:1.2rem; line-height:1.7; }
 
-        /* Footer */
-        footer {
-            background: #000;
-            padding: 2rem 4rem;
-            display: flex;
-            justify-content: flex-start;
-            gap: 3rem;
-        }
-        
-        footer a {
-            color: var(--light-cream);
-            text-decoration: none;
-            font-size: 1rem;
-            transition: opacity 0.3s;
-        }
-        
-        footer a:hover {
-            opacity: 0.7;
-        }
+/* Reviews Section */
+.reviews { background:var(--light-cream); padding:8rem 4rem; }
+.reviews h2 { font-family:'Playfair Display', serif; font-size:3.5rem; color:var(--primary-blue); margin-bottom:6rem; }
+.review-card { border-top:1px solid #CCC; padding:3rem 0; display:grid; grid-template-columns:200px 1fr; gap:4rem; }
+.reviewer-name { font-family:'Playfair Display', serif; font-size:1.3rem; letter-spacing:2px; text-transform:uppercase; color:var(--text-dark); }
+.review-text { font-size:1.3rem; line-height:1.7; color:var(--text-dark); }
 
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .hero, .about, .about-company, .contact-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .hero-content h1 {
-                font-size: 4rem;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-        }
-    </style>
+/* About Company Section */
+.about-company { background:var(--light-cream); padding:8rem 4rem; display:grid; grid-template-columns:1fr 1fr; gap:6rem; align-items:center; }
+.about-company h2 { font-family:'Playfair Display', serif; font-size:3.5rem; color:var(--primary-blue); margin-bottom:2rem; font-weight:400; text-transform:uppercase; }
+.about-company p { font-size:1.3rem; line-height:1.8; color:var(--text-dark); margin-bottom:1.5rem; }
+.about-company-image { width:100%; max-width:500px; height:auto; display:block; }
+
+/* Contact Section */
+.contact { background:var(--primary-blue); padding:8rem 4rem; color:var(--light-cream); }
+.contact-container { display:grid; grid-template-columns:1fr 1fr; gap:8rem; max-width:1400px; margin:0 auto; }
+.contact-info h3 { font-family:'Playfair Display', serif; font-size:1.5rem; letter-spacing:2px; text-transform:uppercase; margin-bottom:1rem; }
+.contact-info p { font-size:1.3rem; margin-bottom:3rem; }
+.contact-info a { color:var(--light-cream); text-decoration:underline; font-size:1.2rem; transition:opacity 0.3s; }
+.contact-info a:hover { opacity:0.7; }
+.social-links { display:flex; gap:2rem; margin-top:2rem; }
+.social-icon { width:50px; height:50px; display:flex; align-items:center; justify-content:center; transition:transform 0.3s; }
+.social-icon:hover { transform:scale(1.2); }
+.social-icon svg { width:30px; height:30px; fill:var(--light-cream); }
+
+/* Footer */
+footer { background:#000; padding:2rem 4rem; display:flex; justify-content:flex-start; gap:3rem; }
+footer a { color:var(--light-cream); text-decoration:none; font-size:1rem; transition:opacity 0.3s; }
+footer a:hover { opacity:0.7; }
+
+/* Responsive */
+@media (max-width:1024px) {
+  .hero, .about, .about-company, .contact-container { grid-template-columns:1fr; }
+  .features-grid { grid-template-columns:1fr; }
+  .hero-content h1 { font-size:4rem; }
+  .nav-links { display:none; }
+}
+</style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="reveal">
-        <div class="logo reveal">
-            <img src="./inboxdassests/bluelogo.png" alt="INBOXD Logo" class="logo-image">
-            <div class="logo-text">INBOXD</div>
-        </div>
-        <ul class="nav-links reveal">
-            <li><a href="#what">What is Inboxd?</a></li>
-            <li><a href="https://form.jotform.com/260275308450251">Join our Beta Testing</a></li>
-            <li><a href="#contact">Contact Us</a></li>
-            <li><a href="#about">About Inboxd</a></li>
-        </ul>
-    </nav>
 
-    <!-- Hero Section -->
-    <section class="hero reveal">
-        <div class="hero-content reveal">
-            <h1>Write more with less.</h1>
-            <a href="https://form.jotform.com/260275308450251" class="cta-button">Join Our Waitlist</a>
-            <div class="download-buttons reveal">
-                <a href="https://apps.apple.com" target="_blank" class="download-btn reveal">...</a>
-                <a href="https://chromewebstore.google.com" target="_blank" class="download-btn reveal">...</a>
-            </div>
-        </div>
-        <div class="hero-mockup reveal">
-            <div class="video-container reveal">
-                <video autoplay loop muted playsinline>
-                    <source src="./inboxdassests/inboxdvideo.mp4" type="video/mp4">
-                </video>
-            </div>
-        </div>
-    </section>
+<!-- Navigation -->
+<nav>
+  <div class="logo">
+    <img src="./inboxdassests/bluelogo.png" alt="INBOXD Logo" class="logo-image reveal">
+    <div class="logo-text reveal">INBOXD</div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#what" class="reveal">What is Inboxd?</a></li>
+    <li><a href="https://form.jotform.com/260275308450251" class="reveal">Join our Beta Testing</a></li>
+    <li><a href="#contact" class="reveal">Contact Us</a></li>
+    <li><a href="#about" class="reveal">About Inboxd</a></li>
+  </ul>
+</nav>
 
-    <!-- About Section -->
-    <section class="about reveal" id="what">
-        <div class="about-image-container reveal">
-            <img src="./inboxdassests/bluesquiggle.PNG" alt="Background Shape" class="blue-background-shape reveal">
-            <img src="./inboxdassests/whitelogo.PNG" alt="INBOXD Logo" class="white-logo-overlay reveal">
-        </div>
-        <div class="about-content reveal">
-            <h2>Say Hello to<br>INBOXD</h2>
-            <p>Inboxd is an AI-powered email assistant...</p>
-        </div>
-    </section>
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-content">
+    <h1 class="reveal">Write more with less.</h1>
+    <a href="https://form.jotform.com/260275308450251" class="cta-button reveal">Join Our Waitlist</a>
+    <div class="download-buttons">
+      <a href="https://apps.apple.com" class="download-btn reveal">App Store</a>
+      <a href="https://chromewebstore.google.com" class="download-btn reveal">Chrome Extension</a>
+    </div>
+  </div>
+  <div class="hero-mockup reveal">
+    <div class="video-container reveal">
+      <video autoplay loop muted playsinline>
+        <source src="./inboxdassests/inboxdvideo.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
 
-    <!-- Features Section -->
-    <section class="features reveal">
-        <h2 class="reveal">Inboxd's Top Features</h2>
-        <div class="features-grid">
-            <div class="feature-card reveal" style="--delay:0s">...</div>
-            <div class="feature-card reveal" style="--delay:0.15s">...</div>
-            <div class="feature-card reveal" style="--delay:0.3s">...</div>
-        </div>
-    </section>
+<!-- About Section -->
+<section class="about" id="what">
+  <div class="about-image-container">
+    <img src="./inboxdassests/bluesquiggle.PNG" class="blue-background-shape reveal">
+    <img src="./inboxdassests/whitelogo.PNG" class="white-logo-overlay reveal">
+  </div>
+  <div class="about-content">
+    <h2 class="reveal">Say Hello to<br>INBOXD</h2>
+    <p class="reveal">Inboxd is an AI-powered email assistant...</p>
+  </div>
+</section>
 
-    <!-- Reviews Section -->
-    <section class="reviews reveal">
-        <h2 class="reveal">Read the reviews</h2>
-        <div class="review-card reveal">...</div>
-        <div class="review-card reveal">...</div>
-        <div class="review-card reveal">...</div>
-    </section>
+<!-- Features Section -->
+<section class="features">
+  <h2 class="reveal">Inboxd's Top Features</h2>
+  <div class="features-grid">
+    <div class="feature-card reveal">Feature 1</div>
+    <div class="feature-card reveal">Feature 2</div>
+    <div class="feature-card reveal">Feature 3</div>
+  </div>
+</section>
 
-    <!-- About Company Section -->
-    <section class="about-company reveal" id="about">
-        <div class="about-content reveal">...</div>
-        <div class="about-illustration reveal">...</div>
-    </section>
+<!-- Reviews Section -->
+<section class="reviews">
+  <h2 class="reveal">Read the reviews</h2>
+  <div class="review-card reveal">Review 1</div>
+  <div class="review-card reveal">Review 2</div>
+  <div class="review-card reveal">Review 3</div>
+</section>
 
-    <!-- Contact Section -->
-    <section class="contact reveal" id="contact">
-        <div class="contact-container reveal">
-            <div>...</div>
-            <div class="contact-info reveal">...</div>
-        </div>
-    </section>
+<!-- About Company Section -->
+<section class="about-company" id="about">
+  <div class="about-content">
+    <h2 class="reveal">About Inboxd</h2>
+    <p class="reveal">Inboxd was founded by...</p>
+    <p class="reveal">Although AI email assistants...</p>
+  </div>
+  <div class="about-illustration">
+    <img src="./inboxdassests/about.png" class="about-company-image reveal">
+  </div>
+</section>
 
-    <!-- Footer -->
-    <footer class="reveal">
-        <a href="#">Terms & Support</a>
-        <a href="#">Privacy Policy</a>
-    </footer>
+<!-- Contact Section -->
+<section class="contact" id="contact">
+  <div class="contact-container">
+    <div>
+      <h2 class="reveal">
+        <img src="./inboxdassests/whitelogo.PNG" class="contact-logo reveal"> Contact Us
+      </h2>
+    </div>
+    <div class="contact-info">
+      <h3 class="reveal">Email</h3>
+      <p class="reveal">Inboxdapp@gmail.com</p>
+      <a href="https://form.jotform.com/260275701514249" class="reveal">SUBMIT A QUESTION FORM</a>
+      <h3 class="reveal" style="margin-top:3rem;">Social</h3>
+      <div class="social-links">
+        <a href="#" class="social-icon reveal">FB</a>
+        <a href="#" class="social-icon reveal">TW</a>
+        <a href="http://instagram.com/inboxdapp" class="social-icon reveal">IG</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- Scroll animation JS -->
-    <script>
-        const reveals = document.querySelectorAll('.reveal');
-        const observer = new IntersectionObserver(
-            entries => {
-                entries.forEach(entry => {
-                    if(entry.isIntersecting){
-                        entry.target.classList.add('show');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            { threshold: 0.15 }
-        );
-        reveals.forEach(el => observer.observe(el));
-    </script>
+<!-- Footer -->
+<footer>
+  <a href="#" class="reveal">Terms & Support</a>
+  <a href="#" class="reveal">Privacy Policy</a>
+</footer>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('show');
+      observer.unobserve(entry.target);
+    }
+  });
+},{ threshold: 0.15 });
+reveals.forEach(el => observer.observe(el));
+</script>
+
 </body>
 </html>
