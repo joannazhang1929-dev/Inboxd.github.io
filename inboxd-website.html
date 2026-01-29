@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INBOXD - AI Email Assistant</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Crimson+Text:wght@400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-blue: #0B4B99;
+            --dark-blue: #083D7E;
+            --light-cream: #F5F3EE;
+            --text-dark: #2A2A2A;
+        }
+        
+        body {
+            font-family: 'Crimson Text', serif;
+            background-color: var(--light-cream);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+        
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 4rem;
+            position: relative;
+            z-index: 100;
+            margin: 2rem 4rem;
+            /* Border removed from the main container */
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .logo-image {
+            height: 80px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: space-between; /* Spreads links evenly inside the pill */
+            align-items: center;
+            list-style: none;
+            background: var(--light-cream);
+            padding: 1.2rem 4rem;
+            
+            /* Border moved here for the pill shape */
+            border: 3px solid var(--primary-blue);
+            border-radius: 50px;
+            
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            width: 100%;       /* Makes it stretch */
+            margin-left: 4rem; /* Space between Logo and Links */
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary-blue);
+            font-size: 1.2rem;
+            font-weight: 400;
+            transition: opacity 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.7;
+            border-bottom: 2px solid var(--primary-blue);
+        }
+        
+        /* Hero Section */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            padding: 6rem 4rem;
+            align-items: center;
+            min-height: 80vh;
+            background-color: var(--light-cream);
+        }
+        
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 5.5rem;
+            font-weight: 400;
+            line-height: 1.2;
+            color: var(--primary-blue);
+            margin-bottom: 3rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            border: 2px solid var(--primary-blue);
+            border-radius: 50px;
+            text-decoration: none;
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            background: transparent;
+        }
+        
+        .cta-button:hover {
+            background: var(--primary-blue);
+            color: var(--light-cream);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(11, 75, 153, 0.3);
+        }
+        
+        .hero-mockup {
+            position: relative;
+            padding: 2rem;
+        }
+        
+        .video-container {
+            background: var(--primary-blue);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(11, 75, 153, 0.3);
+            transform: perspective(1000px) rotateY(-5deg);
+            transition: transform 0.5s;
+        }
+        
+        .video-container:hover {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+        
+        .video-container video {
+            width: 100%;
+            border-radius: 10px;
+            display: block;
+        }
+        
+        .download-buttons {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        .download-btn {
+            background: #000;
+            color: var(--light-cream);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: transform 0.3s;
+            font-weight: 600;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        /* About Section */
+        .about {
+            background: var(--light-cream);
+            padding: 8rem 4rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+        
+        .about-image-container {
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .blue-background-shape {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .white-logo-overlay {
+            position: absolute;
+            width: 50%;
+            height: auto;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .about-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+        
+        .about-content p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: var(--text-dark);
+        }
+        
+        /* Features Section */
+        .features {
+            background: var(--primary-blue);
+            padding: 8rem 4rem;
+            color: var(--light-cream);
+        }
+        
+        .features h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 6rem;
+            font-weight: 400;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            text-align: center;
+        }
+        
+        .feature-icon {
+            width: 120px;
+            height: 120px;
+            background: var(--light-cream);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .feature-icon svg {
+            width: 50px;
+            height: 50px;
+            stroke: var(--primary-blue);
+            fill: none;
+            stroke-width: 2;
+        }
+        
+        .feature-card p {
+            font-size: 1.2rem;
+            line-height: 1.7;
+        }
+        
+        /* Reviews Section */
+        .reviews {
+            background: var(--light-cream);
+            padding: 8rem 4rem;
+        }
+        
+        .reviews h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 6rem;
+        }
+        
+        .review-card {
+            border-top: 1px solid #CCC;
+            padding: 3rem 0;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 4rem;
+        }
+        
+        .reviewer-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-dark);
+        }
+        
+        .review-text {
+            font-size: 1.3rem;
+            line-height: 1.7;
+            color: var(--text-dark);
+        }
+        
+        /* About Company Section */
+        .about-company {
+            background: var(--light-cream);
+            padding: 8rem 4rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+        
+        .about-company h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 2rem;
+            font-weight: 400;
+            text-transform: uppercase;
+        }
+        
+        .about-company p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+        }
+        
+        .about-illustration {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .about-company-image {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            display: block;
+        }
+        
+        /* Contact Section */
+        .contact {
+            background: var(--primary-blue);
+            padding: 8rem 4rem;
+            color: var(--light-cream);
+        }
+        
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .contact h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 4rem;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .contact-logo {
+            height: 70px;
+            width: auto;
+        }
+        
+        .contact-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-info p {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .contact-info a {
+            color: var(--light-cream);
+            text-decoration: underline;
+            font-size: 1.2rem;
+            transition: opacity 0.3s;
+        }
+        
+        .contact-info a:hover {
+            opacity: 0.7;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+        
+        .social-icon:hover {
+            transform: scale(1.2);
+        }
+        
+        .social-icon svg {
+            width: 30px;
+            height: 30px;
+            fill: var(--light-cream);
+        }
+        
+        /* Footer */
+        footer {
+            background: #000;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: flex-start;
+            gap: 3rem;
+        }
+        
+        footer a {
+            color: var(--light-cream);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: opacity 0.3s;
+        }
+        
+        footer a:hover {
+            opacity: 0.7;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero, .about, .about-company, .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-content h1 {
+                font-size: 4rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <img src="./inboxdassests/bluelogo.png" alt="INBOXD Logo" class="logo-image">
+            <div class="logo-text">INBOXD</div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#what">What is Inboxd?</a></li>
+            <li><a href="https://form.jotform.com/260275308450251">Join our Beta Testing</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+            <li><a href="#about">About Inboxd</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Write more with less.</h1>
+            <a href="https://form.jotform.com/260275308450251" class="cta-button">Join Our Waitlist</a>
+            
+            <div class="download-buttons">
+                <a href="https://apps.apple.com" target="_blank" class="download-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                    </svg>
+                    <div>
+                        <div style="font-size: 0.8rem; opacity: 0.8;">Get it on the</div>
+                        <div>App Store</div>
+                    </div>
+                </a>
+                <a href="https://chromewebstore.google.com" target="_blank" class="download-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="5" width="18" height="14" rx="2" ry="2"/>
+                        <polyline points="3 8 12 13 21 8"/>
+                    </svg>
+                    <div>
+                        <div style="font-size: 0.8rem; opacity: 0.8;">Get it on</div>
+                        <div>Chrome Extensions</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
+        <div class="hero-mockup">
+            <div class="video-container">
+                <video autoplay loop muted playsinline>
+                    <source src="./inboxdassests/inboxdrecording.mov" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="what">
+        <div class="about-image-container">
+            <img src="./inboxdassests/bluesquiggle.PNG" alt="Background Shape" class="blue-background-shape">
+            <img src="./inboxdassests/whitelogo.PNG" alt="INBOXD Logo" class="white-logo-overlay">
+        </div>
+        <div class="about-content">
+            <h2>Say Hello to<br>INBOXD</h2>
+            <p>Inboxd is an AI-powered email assistant designed to make professional communication effortless. It reads your incoming messages, understands your intentions, and generates context-accurate replies, saving you time while keeping your tone clear and appropriate. Whether you need to respond quickly on the go or draft polished messages for work, Inboxd helps you stay organized, prompt, and confident in every conversation.</p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2>Inboxd's Top Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/>
+                        <line x1="16" y1="8" x2="2" y2="22"/>
+                        <line x1="17.5" y1="15" x2="9" y2="15"/>
+                    </svg>
+                </div>
+                <p>AI Adaptability tailors each email to the context of your email and style of your writing, all while considering your personal preferences regarding the tone of the email.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                </div>
+                <p>Easy user access is promoted by an easy-use design and offering quick-access to your favourite themes and tones to maximize email response efficiency.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <polyline points="2 17 12 22 22 17"/>
+                        <polyline points="2 12 12 17 22 12"/>
+                    </svg>
+                </div>
+                <p>Write only 20 characters and Inboxd fully understands your intentions, tone, and relationship with the recipient, personalizing an email for you!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews">
+        <h2>Read the reviews</h2>
+        
+        <div class="review-card">
+            <div class="reviewer-name">APLE. CO</div>
+            <div class="review-text">what an amazing app and the coolest developers too i use this all the time</div>
+        </div>
+        
+        <div class="review-card">
+            <div class="reviewer-name">ELON PUSK</div>
+            <div class="review-text">wow, i would totally reccomend tesla use this as well! what aura.</div>
+        </div>
+        
+        <div class="review-card">
+            <div class="reviewer-name">MY GRANDMA</div>
+            <div class="review-text">oh gee i just cant use these fancy shmancy technolgies in this day and age oh gee good thing I have Inboxd to respond to my emails</div>
+        </div>
+    </section>
+
+    <!-- About Company Section -->
+    <section class="about-company" id="about">
+        <div class="about-content">
+            <h2>About Inboxd</h2>
+            <p>Inboxd was founded by two passionate high school seniors tired of watching the rest of the world adapt and invent whilst communications were left sub-par.</p>
+            <p>Although AI email assistants did exist, their design, user interface, and capabilities let their consumers down. Thus, they founded Inboxd: A revolutionary extension, app, and email service to make communication all-the-more worthwhile and effortless.</p>
+        </div>
+        <div class="about-illustration">
+            <img src="./inboxdassests/about.png" alt="About INBOXD" class="about-company-image">
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="contact-container">
+            <div>
+                <h2>
+                    <img src="./inboxdassests/whitelogo.PNG" alt="INBOXD" class="contact-logo">
+                    Contact Us
+                </h2>
+            </div>
+            <div class="contact-info">
+                <h3>Email</h3>
+                <p>Inboxdapp@gmail.com</p>
+                
+                <a href="https://form.jotform.com/260275701514249">SUBMIT A QUESTION FORM</a>
+                
+                <h3 style="margin-top: 3rem;">Social</h3>
+                <div class="social-links">
+                    <a href="#" class="social-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+                        </svg>
+                    </a>
+                    <a href="http://instagram.com/inboxdapp" class="social-icon">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <a href="#">Terms & Support</a>
+        <a href="#">Privacy Policy</a>
+    </footer>
+</body>
+</html>
