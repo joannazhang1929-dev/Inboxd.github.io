@@ -30,6 +30,18 @@
             color: var(--text-dark);
             overflow-x: hidden;
         }
+
+        /* Scroll animation CSS */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
         
         /* Navigation */
         nav {
@@ -40,7 +52,6 @@
             position: relative;
             z-index: 100;
             margin: 1rem 4rem 0 4rem;
-            /* Border removed from the main container */
         }
 
         .logo {
@@ -67,19 +78,16 @@
 
         .nav-links {
             display: flex;
-            justify-content: space-between; /* Spreads links evenly inside the pill */
+            justify-content: space-between;
             align-items: center;
             list-style: none;
             background: var(--white);
             padding: 1.2rem 4rem;
-            
-            /* Border moved here for the pill shape */
             border: 3px solid var(--primary-blue);
             border-radius: 50px;
-            
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            width: 100%;       /* Makes it stretch */
-            margin-left: 4rem; /* Space between Logo and Links */
+            width: 100%;
+            margin-left: 4rem;
         }
 
         .nav-links a {
@@ -95,7 +103,7 @@
             opacity: 0.7;
             border-bottom: 2px solid var(--primary-blue);
         }
-        
+
         /* Hero Section */
         .hero {
             display: grid;
@@ -184,7 +192,7 @@
         .download-btn:hover {
             transform: translateY(-3px);
         }
-        
+
         /* About Section */
         .about {
             background: var(--light-cream);
@@ -207,7 +215,6 @@
         
         .blue-background-shape {
             width: 200%;
-            height: 200%;
             height: auto;
             display: block;
         }
@@ -215,7 +222,6 @@
         .white-logo-overlay {
             position: absolute;
             width: 100%;
-            height: 100%;
             height: auto;
             top: 55%;
             left: 50%;
@@ -235,7 +241,7 @@
             line-height: 1.8;
             color: var(--text-dark);
         }
-        
+
         /* Features Section */
         .features {
             background: var(--primary-blue);
@@ -291,7 +297,7 @@
             font-size: 1.2rem;
             line-height: 1.7;
         }
-        
+
         /* Reviews Section */
         .reviews {
             background: var(--light-cream);
@@ -326,7 +332,7 @@
             line-height: 1.7;
             color: var(--text-dark);
         }
-        
+
         /* About Company Section */
         .about-company {
             background: var(--light-cream);
@@ -365,7 +371,7 @@
             height: auto;
             display: block;
         }
-        
+
         /* Contact Section */
         .contact {
             background: var(--primary-blue);
@@ -444,7 +450,7 @@
             height: 30px;
             fill: var(--light-cream);
         }
-        
+
         /* Footer */
         footer {
             background: #000;
@@ -464,9 +470,9 @@
         footer a:hover {
             opacity: 0.7;
         }
-        
+
         /* Responsive */
-         @media (max-width: 1024px) {
+        @media (max-width: 1024px) {
             .hero, .about, .about-company, .contact-container {
                 grid-template-columns: 1fr;
             }
@@ -487,7 +493,7 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class = "reveal">
+    <nav class="reveal">
         <div class="logo reveal">
             <img src="./inboxdassests/bluelogo.png" alt="INBOXD Logo" class="logo-image">
             <div class="logo-text">INBOXD</div>
@@ -505,35 +511,15 @@
         <div class="hero-content reveal">
             <h1>Write more with less.</h1>
             <a href="https://form.jotform.com/260275308450251" class="cta-button">Join Our Waitlist</a>
-            
             <div class="download-buttons reveal">
-                <a href="https://apps.apple.com" target="_blank" class="download-btn">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-                    </svg>
-                    <div>
-                        <div style="font-size: 0.8rem; opacity: 0.8;">Available soon on the</div>
-                        <div>App Store</div>
-                    </div>
-                </a>
-                <a href="https://chromewebstore.google.com" target="_blank" class="download-btn">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="5" width="18" height="14" rx="2" ry="2"/>
-                        <polyline points="3 8 12 13 21 8"/>
-                    </svg>
-                    <div>
-                        <div style="font-size: 0.8rem; opacity: 0.8;">Available soon on</div>
-                        <div>Chrome Extensions</div>
-                    </div>
-                </a>
+                <a href="https://apps.apple.com" target="_blank" class="download-btn reveal">...</a>
+                <a href="https://chromewebstore.google.com" target="_blank" class="download-btn reveal">...</a>
             </div>
         </div>
-        
         <div class="hero-mockup reveal">
             <div class="video-container reveal">
                 <video autoplay loop muted playsinline>
                     <source src="./inboxdassests/inboxdvideo.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
                 </video>
             </div>
         </div>
@@ -542,147 +528,68 @@
     <!-- About Section -->
     <section class="about reveal" id="what">
         <div class="about-image-container reveal">
-            <img src="./inboxdassests/bluesquiggle.PNG" alt="Background Shape" class="blue-background-shape">
-            <img src="./inboxdassests/whitelogo.PNG" alt="INBOXD Logo" class="white-logo-overlay">
+            <img src="./inboxdassests/bluesquiggle.PNG" alt="Background Shape" class="blue-background-shape reveal">
+            <img src="./inboxdassests/whitelogo.PNG" alt="INBOXD Logo" class="white-logo-overlay reveal">
         </div>
         <div class="about-content reveal">
             <h2>Say Hello to<br>INBOXD</h2>
-            <p>Inboxd is an AI-powered email assistant designed to make professional communication effortless. It reads your incoming messages, understands your intentions, and generates context-accurate replies, saving you time while keeping your tone clear and appropriate. Whether you need to respond quickly on the go or draft polished messages for work, Inboxd helps you stay organized, prompt, and confident in every conversation.</p>
+            <p>Inboxd is an AI-powered email assistant...</p>
         </div>
     </section>
 
     <!-- Features Section -->
     <section class="features reveal">
-         <h2 class="reveal">Inboxd's Top Features</h2>
-        <div class="features-grid reveal">
-            <div class="feature-card reveal">
-                <div class="feature-icon reveal">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/>
-                        <line x1="16" y1="8" x2="2" y2="22"/>
-                        <line x1="17.5" y1="15" x2="9" y2="15"/>
-                    </svg>
-                </div>
-                <p>AI Adaptability tailors each email to the context of your email and style of your writing, all while considering your personal preferences regarding the tone of the email.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                        <circle cx="12" cy="12" r="3"/>
-                    </svg>
-                </div>
-                <p>Easy user access is promoted by an easy-use design and offering quick-access to your favourite themes and tones to maximize email response efficiency.</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                        <polyline points="2 17 12 22 22 17"/>
-                        <polyline points="2 12 12 17 22 12"/>
-                    </svg>
-                </div>
-                <p>Write only 20 characters and Inboxd fully understands your intentions, tone, and relationship with the recipient, personalizing an email for you!</p>
-            </div>
+        <h2 class="reveal">Inboxd's Top Features</h2>
+        <div class="features-grid">
+            <div class="feature-card reveal" style="--delay:0s">...</div>
+            <div class="feature-card reveal" style="--delay:0.15s">...</div>
+            <div class="feature-card reveal" style="--delay:0.3s">...</div>
         </div>
     </section>
 
     <!-- Reviews Section -->
-    <section class="reviews">
-        <h2>Read the reviews</h2>
-        
-        <div class="review-card">
-            <div class="reviewer-name">APLE. CO</div>
-            <div class="review-text">what an amazing app and the coolest developers too i use this all the time</div>
-        </div>
-        
-        <div class="review-card">
-            <div class="reviewer-name">ELON PUSK</div>
-            <div class="review-text">wow, i would totally reccomend tesla use this as well! what aura.</div>
-        </div>
-        
-        <div class="review-card">
-            <div class="reviewer-name">MY GRANDMA</div>
-            <div class="review-text">oh gee i just cant use these fancy shmancy technolgies in this day and age oh gee good thing I have Inboxd to respond to my emails</div>
-        </div>
+    <section class="reviews reveal">
+        <h2 class="reveal">Read the reviews</h2>
+        <div class="review-card reveal">...</div>
+        <div class="review-card reveal">...</div>
+        <div class="review-card reveal">...</div>
     </section>
 
     <!-- About Company Section -->
-    <section class="about-company" id="about">
-        <div class="about-content">
-            <h2>About Inboxd</h2>
-            <p>Inboxd was founded by two passionate high school seniors tired of watching the rest of the world adapt and invent whilst communications were left sub-par.</p>
-            <p>Although AI email assistants did exist, their design, user interface, and capabilities let their consumers down. Thus, they founded Inboxd: A revolutionary extension, app, and email service to make communication all-the-more worthwhile and effortless.</p>
-        </div>
-        <div class="about-illustration">
-            <img src="./inboxdassests/about.png" alt="About INBOXD" class="about-company-image">
-        </div>
+    <section class="about-company reveal" id="about">
+        <div class="about-content reveal">...</div>
+        <div class="about-illustration reveal">...</div>
     </section>
 
     <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <div class="contact-container">
-            <div>
-                <h2>
-                    <img src="./inboxdassests/whitelogo.PNG" alt="INBOXD" class="contact-logo">
-                    Contact Us
-                </h2>
-            </div>
-            <div class="contact-info">
-                <h3>Email</h3>
-                <p>Inboxdapp@gmail.com</p>
-                
-                <a href="https://form.jotform.com/260275701514249">SUBMIT A QUESTION FORM</a>
-                
-                <h3 style="margin-top: 3rem;">Social</h3>
-                <div class="social-links">
-                    <a href="#" class="social-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="social-icon">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
-                        </svg>
-                    </a>
-                    <a href="http://instagram.com/inboxdapp" class="social-icon">
-                        <svg viewBox="0 0 24 24">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-                        </svg>
-                    </a>
-                </div>
-            </div>
+    <section class="contact reveal" id="contact">
+        <div class="contact-container reveal">
+            <div>...</div>
+            <div class="contact-info reveal">...</div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
+    <footer class="reveal">
         <a href="#">Terms & Support</a>
         <a href="#">Privacy Policy</a>
     </footer>
-     <script>
-  const reveals = document.querySelectorAll('.reveal');
 
-  const observer = new IntersectionObserver(
-    entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('show');
-          observer.unobserve(entry.target); // animate once
-        }
-      });
-    },
-    {
-      threshold: 0.15
-    }
-  );
-
-  reveals.forEach(el => observer.observe(el));
-</script>
+    <!-- Scroll animation JS -->
+    <script>
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver(
+            entries => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting){
+                        entry.target.classList.add('show');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            { threshold: 0.15 }
+        );
+        reveals.forEach(el => observer.observe(el));
+    </script>
 </body>
 </html>
