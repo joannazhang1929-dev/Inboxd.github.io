@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inboxd | Write Professional Emails Instantly with AI | Context-Aware AI Email Replies | Best Professional AI Email Writer Tool</title>
+    <title>Inboxd | Write Professional Emails Instantly with AI | Context-Aware AI Email Replies | Best Professional Email Writer Tool</title>
     <link rel="icon" href="./inboxdassests/favicon.png" sizes="32x32">
     <link rel="icon" href="./inboxdassests/favicon.png" sizes="16x16">
 
@@ -170,7 +170,7 @@
         
         .download-btn {
             background: #000;
-            color: var(--white);
+            color: var(--light-cream);
             padding: 1rem 2rem;
             border-radius: 10px;
             text-decoration: none;
@@ -235,8 +235,93 @@
             line-height: 1.8;
             color: var(--text-dark);
         }
+        </section> <!-- end of .about -->
         
+<section class="comparison">
+    <h2>What Makes Inboxd Better Than Other Email Assistants</h2>
+
+    <div class="comparison-grid">
+        <div class="comparison-card">
+            <h3>Context-Aware Replies</h3>
+            <p>
+                Inboxd understands full email threads, relationships, and intent —
+                not just keywords.
+            </p>
+        </div>
+
+        <div class="comparison-card">
+            <h3>Tone You Control</h3>
+            <p>
+                Choose how you sound every time: professional, warm, firm,
+                apologetic, or casual.
+            </p>
+        </div>
+
+        <div class="comparison-card">
+            <h3>Minimal Input Required</h3>
+            <p>
+                Write as little as 20 characters and Inboxd generates
+                a complete, polished response.
+            </p>
+        </div>
+
+        <div class="comparison-card">
+            <h3>Designed for Real People</h3>
+            <p>
+                Built for students, professionals, and teams —
+                not engineers tweaking prompts.
+            </p>
+        </div>
+    </div>
+</section>
+
         /* Features Section */
+            /* Comparison Section */
+.comparison {
+    background: var(--primary-blue);
+    padding: 8rem 4rem;
+    color: var(--light-cream);
+}
+
+.comparison h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    text-align: center;
+    margin-bottom: 6rem;
+    font-weight: 400;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.comparison-card {
+    border: 2px solid rgba(245, 243, 238, 0.4);
+    border-radius: 30px;
+    padding: 3rem;
+    transition: transform 0.3s, background 0.3s;
+}
+
+.comparison-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.comparison-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.comparison-card p {
+    font-size: 1.25rem;
+    line-height: 1.7;
+}
         .features {
             background: var(--primary-blue);
             padding: 8rem 4rem;
@@ -469,6 +554,13 @@
         @media (max-width: 1024px) {
             .hero, .about, .about-company, .contact-container {
                 grid-template-columns: 1fr;
+                
+                @media (max-width: 1024px) {
+    .comparison-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
             }
             
             .features-grid {
@@ -550,7 +642,7 @@
             <p>Inboxd is an AI-powered email assistant designed to make professional communication effortless. It reads your incoming messages, understands your intentions, and generates context-accurate replies, saving you time while keeping your tone clear and appropriate. Whether you need to respond quickly on the go or draft polished messages for work, Inboxd helps you stay organized, prompt, and confident in every conversation.</p>
         </div>
     </section>
-
+    
     <!-- Features Section -->
     <section class="features">
         <h2>Inboxd's Top Features</h2>
