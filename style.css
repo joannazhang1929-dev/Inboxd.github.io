@@ -586,13 +586,6 @@ padding: 20px;
   flex-direction: column;
   
 
-#contactcard a {
-  color: white;
-  text-decoration: none;
-  font-family: inherit;
-}
-  
-
 }
 #contactRight{
   flex: 3;
@@ -633,7 +626,13 @@ padding: 20px;
   font-weight: 300;
   text-align: right;
 
+}
 
+#contactcard a{
+  color: white;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 300;
 }
 
 #spcc{
