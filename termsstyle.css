@@ -1,1 +1,56 @@
+html{
+  scroll-behavior: smooth;
+}
+
+:root {
+  --bg-color: #fcfcfc;
+  --text-color: black;
+  --accent-color: rgb(46, 104, 170);
+ 
+
+}
+
+
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  background: linear-gradient(
+  160deg,
+  rgba(0, 136, 255, 0.312) 0%,
+  white 50%
+  
+);
+
+  
+  
+  background-repeat: no-repeat;
+}
+
+p{
+  font-family: "Rubik", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-size: 1.2rem;
+  font-style: normal;
+  color: var(--accent-color);
+
+}
+
+h2{
+  font-family: "Rubik", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-size: 1.7rem;
+  font-style: normal;
+  color: var(--accent-color);
+  text-align: center;
+  width: 80%;
+  
+
+}
 
