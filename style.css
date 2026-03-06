@@ -586,7 +586,11 @@ padding: 20px;
   flex-direction: column;
   
 
- 
+#contactcard a {
+  color: white;
+  text-decoration: none;
+  font-family: inherit;
+}
   
 
 }
@@ -713,6 +717,7 @@ padding: 20px;
     #About{
    flex-direction: column;
     }
+  
 
   
   
