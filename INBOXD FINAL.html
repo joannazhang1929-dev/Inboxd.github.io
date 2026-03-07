@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inboxd</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <!-- Geist via CDN -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Medium.woff2') format('woff2');
+      font-weight: 500;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2');
+      font-weight: 600;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Bold.woff2') format('woff2');
+      font-weight: 700;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:       #161618;
+      --bg2:      #1E1E21;
+      --bg3:      #252528;
+      --surface:  #2A2A2E;
+      --border:   rgba(255,255,255,0.07);
+      --border2:  rgba(255,255,255,0.12);
+      --white:    #F0EFF0;
+      --dim:      #888890;
+      --dim2:     #555560;
+      --accent:   #4F7FFF;
+      --accent2:  rgba(79,127,255,0.12);
+      --green:    #34D399;
+      --geist:    'Geist', 'DM Sans', system-ui, sans-serif;
+      --mono:     'DM Mono', 'Courier New', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--geist);
+      background: var(--bg);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      background: rgba(22,22,24,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--geist);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: -0.03em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--dim);
+      text-decoration: none;
+      transition: color 0.15s;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      background: var(--white);
+      color: var(--bg) !important;
+      font-size: 0.78rem !important;
+      font-weight: 600 !important;
+      padding: 0.45rem 1.1rem;
+      border-radius: 6px;
+      text-decoration: none;
+      letter-spacing: -0.02em;
+      transition: opacity 0.15s;
+    }
+
+    .nav-cta:hover { opacity: 0.88; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      padding: 56px 2rem 0;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* subtle grid bg */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 0%, transparent 75%);
+      pointer-events: none;
+    }
+
+    /* accent glow */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(79,127,255,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      max-width: 1080px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 5rem 0 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      animation: up 0.5s ease both;
+    }
+
+    .hero-eyebrow-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--green);
+      flex-shrink: 0;
+      box-shadow: 0 0 6px var(--green);
+    }
+
+    .hero h1 {
+      font-family: var(--geist);
+      font-size: clamp(3.2rem, 8vw, 7.5rem);
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: -0.045em;
+      color: var(--white);
+      margin-bottom: 0;
+      animation: up 0.5s 0.07s ease both;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.25);
+    }
+
+    .hero-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 2.5rem 0 3.5rem;
+      max-width: 1080px;
+      margin: 0 auto;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+      animation: up 0.5s 0.15s ease both;
+    }
+
+    .hero-sub {
+      font-size: 0.95rem;
+      color: var(--dim);
+      max-width: 360px;
+      line-height: 1.65;
+      font-weight: 300;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-actions { display: flex; gap: 0.6rem; align-items: center; }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      padding: 0.72rem 1.5rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      transition: opacity 0.15s, transform 0.15s;
+    }
+
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    .btn-ghost {
+      font-size: 0.82rem;
+      color: var(--dim);
+      text-decoration: none;
+      padding: 0.72rem 1rem;
+      transition: color 0.15s;
+      letter-spacing: -0.01em;
+    }
+
+    .btn-ghost:hover { color: var(--white); }
+
+    /* ── INBOX DEMO (hero) ── */
+    .hero-demo {
+      max-width: 1080px;
+      margin: 0 auto 5rem;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+      animation: riseUp 0.65s 0.25s cubic-bezier(0.16,1,0.3,1) both;
+    }
+
+    @keyframes riseUp {
+      from { opacity: 0; transform: translateY(36px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    .demo-hint {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--dim2);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+      text-align: right;
+    }
+
+    .inbox-ui {
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--bg2);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.5), 0 24px 80px rgba(0,0,0,0.4);
+    }
+
+    .inbox-topbar {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+    }
+
+    .wdot { width: 10px; height: 10px; border-radius: 50%; }
+    .wdot.r { background: #FF5F57; }
+    .wdot.y { background: #FEBC2E; }
+    .wdot.g { background: #28C840; }
+
+    .topbar-label {
+      margin-left: 0.5rem;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--dim2);
+    }
+
+    .inbox-body {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 360px;
+    }
+
+    .inbox-list { border-right: 1px solid var(--border); }
+
+    .inbox-list-head {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      color: var(--dim2);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .inbox-badge {
+      background: var(--accent);
+      color: white;
+      font-size: 0.5rem;
+      padding: 0.08rem 0.36rem;
+      border-radius: 8px;
+    }
+
+    .inbox-row {
+      padding: 0.8rem 1rem 0.8rem 1.1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      cursor: pointer;
+      transition: background 0.12s;
+      position: relative;
+    }
+
+    .inbox-row:hover { background: rgba(255,255,255,0.03); }
+
+    .inbox-row.active {
+      background: rgba(79,127,255,0.08);
+      border-left: 2px solid var(--accent);
+    }
+
+    .inbox-row.active .ir-from { color: var(--white); }
+
+    .ir-top { display: flex; justify-content: space-between; margin-bottom: 0.18rem; }
+
+    .ir-from {
+      font-size: 0.74rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.65);
+    }
+
+    .ir-time {
+      font-family: var(--mono);
+      font-size: 0.57rem;
+      color: var(--dim2);
+    }
+
+    .ir-subject {
+      font-size: 0.7rem;
+      color: var(--dim);
+      margin-bottom: 0.12rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ir-preview {
+      font-size: 0.65rem;
+      color: var(--dim2);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ir-unread {
+      position: absolute;
+      left: 0.35rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px; height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    .inbox-row.read .ir-unread { display: none; }
+    .inbox-row.read .ir-from { font-weight: 400; color: var(--dim); }
+
+    .inbox-view { display: flex; flex-direction: column; }
+
+    .view-empty {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--dim2);
+      font-size: 0.75rem;
+      gap: 0.5rem;
+      font-family: var(--mono);
+      letter-spacing: 0.06em;
+    }
+
+    .email-view { display: none; flex-direction: column; flex: 1; }
+    .email-view.on { display: flex; }
+
+    .view-head {
+      padding: 1.1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .view-subject {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 0.35rem;
+      letter-spacing: -0.02em;
+    }
+
+    .view-meta {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      color: var(--dim2);
+      display: flex;
+      gap: 1rem;
+    }
+
+    .view-body {
+      padding: 1.1rem 1.5rem;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.7;
+      font-weight: 300;
+      flex: 1;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .reply-panel {
+      padding: 0.9rem 1.5rem;
+      background: rgba(79,127,255,0.05);
+      border-top: 1px solid rgba(79,127,255,0.12);
+    }
+
+    .reply-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .reply-tag {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .gen-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.35rem 0.85rem;
+      border-radius: 5px;
+      font-size: 0.68rem;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: var(--geist);
+      transition: opacity 0.15s;
+      letter-spacing: -0.01em;
+    }
+
+    .gen-btn:hover:not(:disabled) { opacity: 0.85; }
+    .gen-btn:disabled { opacity: 0.3; cursor: default; }
+
+    .gen-status {
+      display: none;
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .gen-status.on { display: flex; }
+
+    .gen-dot {
+      width: 4px; height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 0.9s infinite;
+    }
+
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.15} }
+
+    .reply-text {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.7;
+      font-weight: 300;
+      min-height: 42px;
+    }
+
+    .reply-text.ph { color: var(--dim2); font-style: italic; }
+
+    /* ── STRIP ── */
+    .strip {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0.9rem 0;
+      overflow: hidden;
+    }
+
+    .strip-track {
+      display: flex;
+      animation: marquee 20s linear infinite;
+      white-space: nowrap;
+    }
+
+    .strip-item {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--dim2);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0 2.2rem;
+      border-right: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── LAYOUT ── */
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .sec { padding: 7rem 0; }
+
+    hr.div {
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--dim2);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .eyebrow::before {
+      content: '';
+      display: block;
+      width: 18px;
+      height: 1px;
+      background: var(--dim2);
+    }
+
+    .sec-h {
+      font-family: var(--geist);
+      font-size: clamp(1.7rem, 2.8vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+      color: var(--white);
+    }
+
+    /* ── FEATURES ── */
+    .features-intro {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3rem;
+    }
+
+    .features-intro-sub {
+      font-size: 0.88rem;
+      color: var(--dim);
+      max-width: 320px;
+      line-height: 1.65;
+      font-weight: 300;
+      letter-spacing: -0.01em;
+    }
+
+    /* BIG DEMO AREA (top) */
+    .feat-demo-area {
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--bg2);
+      margin-bottom: 0;
+      min-height: 280px;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.25);
+      position: relative;
+    }
+
+    .feat-demo-screen {
+      display: none;
+      animation: demoIn 0.3s cubic-bezier(0.16,1,0.3,1) both;
+    }
+
+    .feat-demo-screen.on { display: block; }
+
+    @keyframes demoIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    .demo-win-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg3);
+    }
+
+    .demo-win-label {
+      margin-left: 0.5rem;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--dim2);
+    }
+
+    .demo-content { padding: 1.8rem 2rem; }
+
+    /* TABS (bottom) */
+    .feat-tabs {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      border: 1px solid var(--border2);
+      border-top: none;
+      border-radius: 0 0 10px 10px;
+      overflow: hidden;
+    }
+
+    .feat-tab {
+      padding: 1.1rem 1.2rem;
+      cursor: pointer;
+      border-right: 1px solid var(--border);
+      transition: background 0.15s;
+      background: var(--bg2);
+    }
+
+    .feat-tab:last-child { border-right: none; }
+    .feat-tab:hover { background: var(--bg3); }
+
+    .feat-tab.on {
+      background: var(--bg3);
+      border-top: 2px solid var(--accent);
+    }
+
+    .feat-tab-num {
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      color: var(--dim2);
+      letter-spacing: 0.08em;
+      margin-bottom: 0.4rem;
+    }
+
+    .feat-tab.on .feat-tab-num { color: var(--accent); }
+
+    .feat-tab-title {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--dim);
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+    }
+
+    .feat-tab.on .feat-tab-title { color: var(--white); }
+
+    /* ── DEMO INTERNALS ── */
+
+    /* Context */
+    .ctx-thread { display: flex; flex-direction: column; gap: 0.8rem; max-width: 600px; }
+
+    .ctx-msg {
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      line-height: 1.55;
+      font-weight: 300;
+      max-width: 85%;
+    }
+
+    .ctx-msg.them {
+      background: var(--bg3);
+      color: rgba(255,255,255,0.55);
+      align-self: flex-start;
+    }
+
+    .ctx-msg.us {
+      background: var(--accent);
+      color: white;
+      align-self: flex-end;
+    }
+
+    .ctx-typing {
+      background: var(--bg3);
+      color: var(--dim);
+      align-self: flex-end;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-style: italic;
+      font-size: 0.75rem;
+    }
+
+    .tdots span {
+      display: inline-block;
+      width: 4px; height: 4px;
+      background: var(--dim);
+      border-radius: 50%;
+      animation: td 1.2s infinite;
+    }
+
+    .tdots span:nth-child(2) { animation-delay: 0.2s; }
+    .tdots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes td { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-4px)} }
+
+    .ctx-actions { margin-top: 1.2rem; display: flex; gap: 0.6rem; align-items: center; }
+
+    .ctx-tag {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--dim2);
+      letter-spacing: 0.06em;
+    }
+
+    /* Compose */
+    .compose-wrap { max-width: 560px; }
+
+    .compose-label {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      color: var(--dim2);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .compose-label.accent-label { color: var(--accent); margin-top: 1rem; }
+
+    .compose-input-box {
+      position: relative;
+      border: 1px solid var(--border2);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .compose-input {
+      width: 100%;
+      padding: 0.75rem 3rem 0.75rem 1rem;
+      background: var(--bg3);
+      border: none;
+      outline: none;
+      font-family: var(--geist);
+      font-size: 0.82rem;
+      color: var(--white);
+      font-weight: 300;
+    }
+
+    .compose-input::placeholder { color: var(--dim2); }
+
+    .compose-cc {
+      position: absolute;
+      right: 0.8rem; top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      color: var(--dim2);
+    }
+
+    .compose-out {
+      padding: 0.9rem 1rem;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-left: 2px solid var(--accent);
+      border-radius: 6px;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.65;
+      font-weight: 300;
+      min-height: 70px;
+    }
+
+    .compose-out.ph { color: var(--dim2); font-style: italic; }
+
+    /* Tone */
+    .tone-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1rem; }
+
+    .tone-btn {
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--geist);
+      font-size: 0.8rem;
+      color: var(--dim);
+      background: var(--bg3);
+      transition: all 0.15s;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .tone-btn:hover { border-color: var(--border2); color: var(--white); }
+
+    .tone-btn.on {
+      border-color: var(--accent);
+      background: var(--accent2);
+      color: var(--white);
+    }
+
+    .tone-icon { font-size: 0.9rem; }
+
+    .tone-out {
+      padding: 1rem 1.2rem;
+      border: 1px solid var(--border2);
+      border-left: 2px solid var(--accent);
+      border-radius: 6px;
+      background: var(--bg3);
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.65;
+      font-weight: 300;
+      transition: opacity 0.2s;
+    }
+
+    /* Privacy */
+    .priv-list { display: flex; flex-direction: column; gap: 0.5rem; max-width: 540px; }
+
+    .priv-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.8rem;
+      background: var(--bg3);
+      animation: slideIn 0.35s ease both;
+    }
+
+    .priv-row:nth-child(2) { animation-delay: 0.07s; }
+    .priv-row:nth-child(3) { animation-delay: 0.14s; }
+    .priv-row:nth-child(4) { animation-delay: 0.21s; }
+
+    @keyframes slideIn { from{opacity:0;transform:translateX(-8px)} to{opacity:1;transform:none} }
+
+    .priv-label { color: rgba(255,255,255,0.45); }
+    .priv-no { font-family: var(--mono); font-size: 0.65rem; color: #F87171; }
+    .priv-yes { font-family: var(--mono); font-size: 0.65rem; color: var(--green); }
+
+    .priv-row.good {
+      border-color: rgba(52,211,153,0.2);
+      background: rgba(52,211,153,0.05);
+    }
+
+    .priv-row.good .priv-label { color: var(--green); font-weight: 500; }
+
+    /* Everywhere */
+    .platforms { display: flex; flex-direction: column; gap: 0.6rem; max-width: 500px; }
+
+    .platform-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.9rem 1.1rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg3);
+    }
+
+    .platform-icon { font-size: 1.3rem; }
+
+    .platform-name {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.1rem;
+    }
+
+    .platform-desc { font-size: 0.72rem; color: var(--dim); font-weight: 300; }
+
+    .platform-status {
+      margin-left: auto;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+    }
+
+    .platform-status.live { color: var(--green); background: rgba(52,211,153,0.1); }
+    .platform-status.soon { color: var(--dim2); background: rgba(255,255,255,0.05); }
+
+    .platform-row.dim-row { opacity: 0.45; }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7rem;
+      align-items: center;
+    }
+
+    .about-text p {
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.75;
+      font-weight: 300;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.85rem;
+    }
+
+    .about-text p:first-of-type {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.7);
+      font-weight: 400;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .stat-cell {
+      padding: 1.8rem;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+
+    .stat-cell:nth-child(2n) { border-right: none; }
+    .stat-cell:nth-child(3),
+    .stat-cell:nth-child(4) { border-bottom: none; }
+    .stat-cell:hover { background: rgba(255,255,255,0.02); }
+
+    .stat-n {
+      font-family: var(--geist);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.04em;
+      display: block;
+      margin-bottom: 0.3rem;
+      line-height: 1;
+    }
+
+    .stat-l {
+      font-size: 0.72rem;
+      color: var(--dim);
+      font-weight: 300;
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+    }
+
+    /* ── REVIEWS ── */
+    .reviews-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 2.5rem;
+    }
+
+    .reviews-avg {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--dim2);
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .review-card {
+      padding: 1.8rem;
+      border-right: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+
+    .review-card:last-child { border-right: none; }
+    .review-card:hover { background: rgba(255,255,255,0.02); }
+
+    .review-card:first-child {
+      background: var(--accent);
+      grid-column: span 2;
+      border-right: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .review-card:first-child:hover { background: #3f6ee6; }
+
+    .review-stars { font-size: 0.6rem; letter-spacing: 2px; color: var(--dim2); margin-bottom: 1rem; }
+    .review-card:first-child .review-stars { color: #FFD16B; }
+
+    .review-text {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.7;
+      font-weight: 300;
+      margin-bottom: 1.2rem;
+      letter-spacing: -0.01em;
+    }
+
+    .review-card:first-child .review-text { color: rgba(255,255,255,0.85); }
+
+    .review-name { font-size: 0.76rem; font-weight: 500; color: rgba(255,255,255,0.6); }
+    .review-role { font-size: 0.68rem; color: var(--dim2); margin-top: 0.15rem; }
+    .review-card:first-child .review-name { color: white; }
+    .review-card:first-child .review-role { color: rgba(255,255,255,0.45); }
+
+    /* ── CONTACT ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7rem;
+    }
+
+    .contact-list { margin-top: 2.5rem; }
+
+    .contact-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: inherit;
+      transition: padding-left 0.15s;
+    }
+
+    .contact-row:first-child { border-top: 1px solid var(--border); }
+    .contact-row:hover { padding-left: 0.4rem; }
+
+    .cr-label {
+      font-family: var(--mono);
+      font-size: 0.56rem;
+      color: var(--dim2);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.12rem;
+    }
+
+    .cr-val {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: -0.01em;
+      transition: color 0.15s;
+    }
+
+    .contact-row:hover .cr-val { color: var(--white); }
+
+    .cr-arrow { font-size: 0.8rem; color: var(--dim2); transition: all 0.15s; }
+    .contact-row:hover .cr-arrow { color: var(--white); transform: translateX(3px); }
+
+    .cta-box {
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      padding: 2.2rem;
+      background: var(--bg2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(79,127,255,0.06) 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .cta-box h3 {
+      font-family: var(--geist);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.035em;
+      margin-bottom: 0.6rem;
+    }
+
+    .cta-box p {
+      font-size: 0.83rem;
+      color: var(--dim);
+      line-height: 1.65;
+      font-weight: 300;
+      margin-bottom: 1.6rem;
+      letter-spacing: -0.01em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.4rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 100%;
+    }
+
+    .footer-logo {
+      font-family: var(--geist);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--dim2);
+      letter-spacing: -0.03em;
+    }
+
+    .footer-copy { font-size: 0.68rem; color: var(--dim2); }
+
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-size: 0.72rem;
+      color: var(--dim2);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: var(--white); }
+
+    /* ── REVEAL ── */
+    .reveal { transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.hidden { opacity: 0; transform: translateY(20px); }
+    .reveal.visible { opacity: 1 !important; transform: none !important; }
+    .d1 { transition-delay: 0.07s; }
+    .d2 { transition-delay: 0.14s; }
+    .d3 { transition-delay: 0.21s; }
+
+    @keyframes up {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 860px) {
+      nav { padding: 0 1.2rem; }
+      .nav-links { display: none; }
+      .hero { padding: 56px 1.2rem 0; }
+      .hero-row { flex-direction: column; align-items: flex-start; gap: 1.5rem; padding-bottom: 2.5rem; }
+      .hero-demo { padding: 0 1.2rem 3rem; }
+      .wrap { padding: 0 1.2rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3.5rem; }
+      .reviews-grid { grid-template-columns: 1fr 1fr; }
+      .review-card:first-child { grid-column: span 2; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      footer { flex-direction: column; gap: 1rem; }
+      .feat-tabs { grid-template-columns: repeat(3,1fr); }
+      .features-intro { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .inbox-body { grid-template-columns: 180px 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Inboxd</a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="https://form.jotform.com/260275308450251" class="nav-cta">Get Access</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="hero-eyebrow-dot"></span>
+        Beta — free to join
+      </div>
+      <h1>Email smarter.<br><em>Write less.</em><br>Say more.</h1>
+    </div>
+    <div class="hero-row">
+      <p class="hero-sub">AI that reads your inbox, understands context, and crafts replies that sound exactly like you — in under 8 seconds.</p>
+      <div class="hero-actions">
+        <a href="https://form.jotform.com/260275308450251" class="btn-primary">Join Waitlist</a>
+        <a href="#features" class="btn-ghost">See how it works →</a>
+      </div>
+    </div>
+    <div class="hero-demo">
+      <div class="demo-hint">Click any email — try it</div>
+      <div class="inbox-ui">
+        <div class="inbox-topbar">
+          <div class="wdot r"></div><div class="wdot y"></div><div class="wdot g"></div>
+          <span class="topbar-label">Gmail — Inbox</span>
+        </div>
+        <div class="inbox-body">
+          <div class="inbox-list">
+            <div class="inbox-list-head">Inbox <span class="inbox-badge">4</span></div>
+            <div class="inbox-row" data-id="0" onclick="selEmail(0)">
+              <div class="ir-unread"></div>
+              <div class="ir-top"><span class="ir-from">James Davidson</span><span class="ir-time">10:42 AM</span></div>
+              <div class="ir-subject">Re: Q3 Partnership Proposal</div>
+              <div class="ir-preview">Can you send pricing before Thursday?</div>
+            </div>
+            <div class="inbox-row" data-id="1" onclick="selEmail(1)">
+              <div class="ir-unread"></div>
+              <div class="ir-top"><span class="ir-from">Prof. Chen</span><span class="ir-time">9:15 AM</span></div>
+              <div class="ir-subject">Extension Request — Final Paper</div>
+              <div class="ir-preview">You haven't submitted yet. Please advise.</div>
+            </div>
+            <div class="inbox-row read" data-id="2" onclick="selEmail(2)">
+              <div class="ir-unread"></div>
+              <div class="ir-top"><span class="ir-from">Sarah @ Acme</span><span class="ir-time">Yesterday</span></div>
+              <div class="ir-subject">Feedback on your proposal</div>
+              <div class="ir-preview">We loved it! A few small tweaks needed...</div>
+            </div>
+            <div class="inbox-row read" data-id="3" onclick="selEmail(3)">
+              <div class="ir-unread"></div>
+              <div class="ir-top"><span class="ir-from">HR Team</span><span class="ir-time">Mon</span></div>
+              <div class="ir-subject">Interview Confirmation — Thu 2PM</div>
+              <div class="ir-preview">Please confirm your attendance.</div>
+            </div>
+          </div>
+          <div class="inbox-view">
+            <div class="view-empty" id="inboxEmpty">✉&nbsp;&nbsp;select an email</div>
+            <div class="email-view" id="ev0">
+              <div class="view-head">
+                <div class="view-subject">Re: Q3 Partnership Proposal</div>
+                <div class="view-meta"><span>james@acme.com</span><span>Today 10:42 AM</span></div>
+              </div>
+              <div class="view-body">Could you send over the revised pricing before our call on Thursday? We'd like to review it with the team ahead of time.</div>
+              <div class="reply-panel">
+                <div class="reply-head"><span class="reply-tag">Inboxd</span><button class="gen-btn" onclick="genReply(0)">Generate reply</button></div>
+                <div class="gen-status" id="st0"><span class="gen-dot"></span><span>Analyzing thread...</span></div>
+                <div class="reply-text ph" id="r0">Hit generate to see Inboxd work.</div>
+              </div>
+            </div>
+            <div class="email-view" id="ev1">
+              <div class="view-head">
+                <div class="view-subject">Extension Request — Final Paper</div>
+                <div class="view-meta"><span>prof.chen@university.edu</span><span>Today 9:15 AM</span></div>
+              </div>
+              <div class="view-body">You have not submitted your final paper, which was due yesterday. Please respond immediately. A formal extension requires documentation.</div>
+              <div class="reply-panel">
+                <div class="reply-head"><span class="reply-tag">Inboxd</span><button class="gen-btn" onclick="genReply(1)">Generate reply</button></div>
+                <div class="gen-status" id="st1"><span class="gen-dot"></span><span>Detecting urgency...</span></div>
+                <div class="reply-text ph" id="r1">Hit generate to see Inboxd work.</div>
+              </div>
+            </div>
+            <div class="email-view" id="ev2">
+              <div class="view-head">
+                <div class="view-subject">Feedback on your proposal</div>
+                <div class="view-meta"><span>sarah@acmecorp.com</span><span>Yesterday 3:22 PM</span></div>
+              </div>
+              <div class="view-body">We loved the direction. A couple of tweaks — the timeline on page 4 and the budget breakdown. Could we do a quick 20-min call this week?</div>
+              <div class="reply-panel">
+                <div class="reply-head"><span class="reply-tag">Inboxd</span><button class="gen-btn" onclick="genReply(2)">Generate reply</button></div>
+                <div class="gen-status" id="st2"><span class="gen-dot"></span><span>Matching tone...</span></div>
+                <div class="reply-text ph" id="r2">Hit generate to see Inboxd work.</div>
+              </div>
+            </div>
+            <div class="email-view" id="ev3">
+              <div class="view-head">
+                <div class="view-subject">Interview Confirmation — Thursday 2PM</div>
+                <div class="view-meta"><span>hr@company.com</span><span>Monday 11:00 AM</span></div>
+              </div>
+              <div class="view-body">We're pleased to invite you for an interview Thursday at 2:00 PM via Zoom, approximately 45 minutes. Please confirm your attendance by replying.</div>
+              <div class="reply-panel">
+                <div class="reply-head"><span class="reply-tag">Inboxd</span><button class="gen-btn" onclick="genReply(3)">Generate reply</button></div>
+                <div class="gen-status" id="st3"><span class="gen-dot"></span><span>Confirming context...</span></div>
+                <div class="reply-text ph" id="r3">Hit generate to see Inboxd work.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRIP -->
+  <div class="strip">
+    <div class="strip-track">
+      <span class="strip-item">Context-aware AI</span>
+      <span class="strip-item">Zero data storage</span>
+      <span class="strip-item">Under 8 seconds</span>
+      <span class="strip-item">Tone library</span>
+      <span class="strip-item">Free beta</span>
+      <span class="strip-item">Works in Gmail</span>
+      <span class="strip-item">Privacy first</span>
+      <span class="strip-item">Chrome extension</span>
+      <span class="strip-item">iOS app</span>
+      <span class="strip-item">Context-aware AI</span>
+      <span class="strip-item">Zero data storage</span>
+      <span class="strip-item">Under 8 seconds</span>
+      <span class="strip-item">Tone library</span>
+      <span class="strip-item">Free beta</span>
+      <span class="strip-item">Works in Gmail</span>
+      <span class="strip-item">Privacy first</span>
+      <span class="strip-item">Chrome extension</span>
+      <span class="strip-item">iOS app</span>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <hr class="div">
+  <div class="wrap">
+    <div class="sec" id="features">
+      <div class="features-intro reveal">
+        <div>
+          <div class="eyebrow">What it does</div>
+          <h2 class="sec-h">Every feature saves you time.</h2>
+        </div>
+        <p class="features-intro-sub">Each tab below is a live demo — not a description. See exactly how it works.</p>
+      </div>
+
+      <!-- BIG DEMO AREA -->
+      <div class="feat-demo-area reveal d1">
+
+        <!-- Demo: Context-aware -->
+        <div class="feat-demo-screen on" id="fd-context">
+          <div class="demo-win-bar">
+            <div class="wdot r"></div><div class="wdot y"></div><div class="wdot g"></div>
+            <span class="demo-win-label">Thread analysis — live</span>
+          </div>
+          <div class="demo-content">
+            <div class="ctx-thread" id="ctx-thread">
+              <div class="ctx-msg them">Hi — could you send over the revised pricing before Thursday? We'd like to review before the call.</div>
+              <div class="ctx-msg ctx-typing"><span class="tdots"><span></span><span></span><span></span></span> Inboxd reading thread...</div>
+            </div>
+            <div class="ctx-actions">
+              <button class="gen-btn" id="ctx-btn" onclick="runCtx()">Generate reply</button>
+              <span class="ctx-tag" id="ctx-tag"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Demo: 20 chars -->
+        <div class="feat-demo-screen" id="fd-compose">
+          <div class="demo-win-bar">
+            <div class="wdot r"></div><div class="wdot y"></div><div class="wdot g"></div>
+            <span class="demo-win-label">Type a rough idea — watch it expand</span>
+          </div>
+          <div class="demo-content">
+            <div class="compose-wrap">
+              <div class="compose-label">Your rough idea</div>
+              <div class="compose-input-box">
+                <input class="compose-input" id="compose-in" placeholder="e.g. decline meeting, be polite" oninput="composeType()" maxlength="80">
+                <span class="compose-cc" id="compose-cc">0</span>
+              </div>
+              <div class="compose-label accent-label">Inboxd output</div>
+              <div class="compose-out ph" id="compose-out">Start typing above...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Demo: Tone -->
+        <div class="feat-demo-screen" id="fd-tone">
+          <div class="demo-win-bar">
+            <div class="wdot r"></div><div class="wdot y"></div><div class="wdot g"></div>
+            <span class="demo-win-label">Same email, four tones — pick one</span>
+          </div>
+          <div class="demo-content">
+            <div class="tone-grid">
+              <button class="tone-btn on" onclick="selTone(this,'formal')"><span class="tone-icon">🎩</span> Formal</button>
+              <button class="tone-btn" onclick="selTone(this,'casual')"><span class="tone-icon">😊</span> Casual</button>
+              <button class="tone-btn" onclick="selTone(this,'assertive')"><span class="tone-icon">⚡</span> Assertive</button>
+              <button class="tone-btn" onclick="selTone(this,'empathetic')"><span class="tone-icon">🤝</span> Empathetic</button>
+            </div>
+            <div class="tone-out" id="tone-out">Dear James, I hope this message finds you well. Please find the revised pricing attached for your review prior to Thursday's call.</div>
+          </div>
+        </div>
+
+        <!-- Demo: Privacy -->
+        <div class="feat-demo-screen" id="fd-privacy">
+          <div class="demo-win-bar">
+            <div class="wdot r"></div><div class="wdot y"></div><div class="wdot g"></div>
+            <span class="demo-win-label">What Inboxd never does with your data</span>
+          </div>
+          <div class="demo-content">
+            <div class="priv-list">
+              <div class="priv-row"><span class="priv-label">Store your emails on our servers</span><span class="priv-no">✗ Never</span></div>
+              <div class="priv-row"><span class="priv-label">Sell data to third parties</span><span class="priv-no">✗ Never</span></div>
+              <div class="priv-row"><span class="priv-label">Train models on your emails</span><span class="priv-no">✗ Never</span></div>
+              <div class="priv-row good"><span class="priv-label">End-to-end encrypted, always</span><span class="priv-yes">✓ Always</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Demo: Everywhere -->
+        <div class="feat-demo-screen" id="fd-everywhere">
+          <div class="demo-win-bar">
+            <div class="wdot r"></div><div class="wdot y"></div><div class="wdot g"></div>
+            <span class="demo-win-label">Available on your platforms</span>
+          </div>
+          <div class="demo-content">
+            <div class="platforms">
+              <div class="platform-row">
+                <span class="platform-icon">🌐</span>
+                <div><div class="platform-name">Chrome Extension</div><div class="platform-desc">Works directly inside Gmail — no tab switching</div></div>
+                <span class="platform-status live">Live</span>
+              </div>
+              <div class="platform-row">
+                <span class="platform-icon">📱</span>
+                <div><div class="platform-name">iOS App</div><div class="platform-desc">Compose and reply from your phone, natively</div></div>
+                <span class="platform-status live">Live</span>
+              </div>
+              <div class="platform-row dim-row">
+                <span class="platform-icon">🖥</span>
+                <div><div class="platform-name">Web App</div><div class="platform-desc">Full dashboard — coming soon</div></div>
+                <span class="platform-status soon">Soon</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TABS -->
+      <div class="feat-tabs reveal d2">
+        <div class="feat-tab on" onclick="selTab(this,'context')">
+          <div class="feat-tab-num">01</div>
+          <div class="feat-tab-title">Context-Aware AI</div>
+        </div>
+        <div class="feat-tab" onclick="selTab(this,'compose')">
+          <div class="feat-tab-num">02</div>
+          <div class="feat-tab-title">Write 20 Characters</div>
+        </div>
+        <div class="feat-tab" onclick="selTab(this,'tone')">
+          <div class="feat-tab-num">03</div>
+          <div class="feat-tab-title">Tone Library</div>
+        </div>
+        <div class="feat-tab" onclick="selTab(this,'privacy')">
+          <div class="feat-tab-num">04</div>
+          <div class="feat-tab-title">Zero Data Storage</div>
+        </div>
+        <div class="feat-tab" onclick="selTab(this,'everywhere')">
+          <div class="feat-tab-num">05</div>
+          <div class="feat-tab-title">Works Everywhere</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <hr class="div">
+  <div class="wrap">
+    <div class="sec" id="about">
+      <div class="about-grid">
+        <div class="reveal">
+          <div class="eyebrow">Our story</div>
+          <h2 class="sec-h" style="margin-bottom:1.5rem;">Built by students,<br>for everyone.</h2>
+          <div class="about-text">
+            <p>Inboxd was founded by two high school seniors who noticed that while AI was transforming everything around them, professional communication was being left behind.</p>
+            <p>Existing tools were clunky, expensive, or invasive. So we built something different — lightweight, private, and genuinely smart.</p>
+          </div>
+          <a href="#contact" class="btn-primary" style="margin-top:2rem;display:inline-block;">Get early access →</a>
+        </div>
+        <div class="stat-grid reveal d2">
+          <div class="stat-cell"><span class="stat-n">100%</span><span class="stat-l">Free during beta</span></div>
+          <div class="stat-cell"><span class="stat-n">&lt;8s</span><span class="stat-l">Average reply time</span></div>
+          <div class="stat-cell"><span class="stat-n">0</span><span class="stat-l">Emails stored on our servers</span></div>
+          <div class="stat-cell"><span class="stat-n">20ch</span><span class="stat-l">Minimum input needed</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEWS -->
+  <hr class="div">
+  <div class="wrap">
+    <div class="sec" id="reviews">
+      <div class="reviews-top reveal">
+        <div>
+          <div class="eyebrow">Testimonials</div>
+          <h2 class="sec-h">Loved by early users.</h2>
+        </div>
+        <span class="reviews-avg">★★★★★ &nbsp; 5.0 average</span>
+      </div>
+      <div class="reviews-grid reveal d1">
+        <div class="review-card">
+          <div class="review-stars">★ ★ ★ ★ ★</div>
+          <p class="review-text">"Inboxd completely changed how I handle my inbox. What used to take 30 minutes now takes 5. The replies actually sound like me — not a robot."</p>
+          <div class="review-name">Sarah K.</div>
+          <div class="review-role">Marketing Director</div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★ ★ ★ ★ ★</div>
+          <p class="review-text">"I typed 'follow up, be friendly' and got a perfect email. Genuinely impressive."</p>
+          <div class="review-name">Alex M.</div>
+          <div class="review-role">Startup Founder</div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★ ★ ★ ★ ★</div>
+          <p class="review-text">"As a student emailing professors daily, this is a game changer. Professional every time."</p>
+          <div class="review-name">Jordan T.</div>
+          <div class="review-role">University Student</div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★ ★ ★ ★ ★</div>
+          <p class="review-text">"The privacy aspect sold me. My emails stay mine — and the quality is outstanding."</p>
+          <div class="review-name">Priya R.</div>
+          <div class="review-role">Consultant</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <hr class="div">
+  <div class="wrap">
+    <div class="sec" id="contact">
+      <div class="contact-grid">
+        <div class="reveal">
+          <div class="eyebrow">Get in touch</div>
+          <h2 class="sec-h">Let's talk.</h2>
+          <div class="contact-list">
+            <a href="mailto:Support@inboxdapp.com" class="contact-row">
+              <div><div class="cr-label">Email</div><div class="cr-val">Support@inboxdapp.com</div></div>
+              <span class="cr-arrow">→</span>
+            </a>
+            <a href="tel:+17785330182" class="contact-row">
+              <div><div class="cr-label">Phone</div><div class="cr-val">+1 (778) 533-0182</div></div>
+              <span class="cr-arrow">→</span>
+            </a>
+            <a href="https://form.jotform.com/260275701514249" class="contact-row">
+              <div><div class="cr-label">Question</div><div class="cr-val">Submit a form</div></div>
+              <span class="cr-arrow">→</span>
+            </a>
+            <a href="http://instagram.com/inboxdapp" class="contact-row">
+              <div><div class="cr-label">Instagram</div><div class="cr-val">@inboxdapp</div></div>
+              <span class="cr-arrow">→</span>
+            </a>
+          </div>
+        </div>
+        <div class="reveal d2">
+          <div class="cta-box">
+            <h3>Join the waitlist.</h3>
+            <p>Be first to access Inboxd when we launch. Completely free during beta — no credit card needed.</p>
+            <a href="https://form.jotform.com/260275308450251" class="btn-primary" style="display:block;text-align:center;">Get early access →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">Inboxd</span>
+    <span class="footer-copy">© 2026 Inboxd Inc.</span>
+    <div class="footer-links">
+      <a href="terms.html">Terms</a>
+      <a href="#">Privacy</a>
+      <a href="http://instagram.com/inboxdapp">Instagram</a>
+    </div>
+  </footer>
+
+  <script>
+    /* ── INBOX DEMO ── */
+    const replies = [
+      "Hi James — I'll have the revised pricing over to you by Wednesday EOD, well ahead of Thursday. Looking forward to connecting.",
+      "Dear Professor Chen, I sincerely apologize for the delay. I've run into an unexpected situation and would greatly appreciate a 48-hour extension. Happy to provide documentation if needed.",
+      "Hi Sarah, so glad to hear it! I'm free Tuesday or Wednesday afternoon — just send over a time and I'll be there. Looking forward to refining the details.",
+      "Thank you for the invitation. I'm happy to confirm for Thursday at 2:00 PM via Zoom. I'll be fully prepared — let me know if there's anything I should review beforehand."
+    ];
+    const sts = [
+      ['Analyzing thread...','Understanding context...','Drafting reply...'],
+      ['Detecting urgency...','Calibrating formality...','Drafting reply...'],
+      ['Reading feedback...','Matching tone...','Drafting reply...'],
+      ['Confirming context...','Setting register...','Drafting reply...'],
+    ];
+    let busy = false;
+
+    function selEmail(id) {
+      document.getElementById('inboxEmpty').style.display = 'none';
+      document.querySelectorAll('.inbox-row').forEach(e => e.classList.remove('active'));
+      document.querySelector(`[data-id="${id}"]`).classList.add('active','read');
+      document.querySelectorAll('.email-view').forEach(e => e.classList.remove('on'));
+      document.getElementById(`ev${id}`).classList.add('on');
+    }
+
+    function genReply(id) {
+      if (busy) return;
+      busy = true;
+      const btn = document.querySelector(`#ev${id} .gen-btn`);
+      const st = document.getElementById(`st${id}`);
+      const el = document.getElementById(`r${id}`);
+      btn.disabled = true;
+      el.textContent = ''; el.classList.remove('ph');
+      st.classList.add('on');
+      let si = 0;
+      const seq = sts[id];
+      const tick = setInterval(() => { si++; if (si < seq.length) st.querySelector('span:last-child').textContent = seq[si]; }, 550);
+      setTimeout(() => {
+        clearInterval(tick); st.classList.remove('on');
+        let i = 0; const txt = replies[id];
+        const type = () => { if (i < txt.length) { el.textContent += txt[i++]; setTimeout(type, 15); } else { btn.disabled = false; btn.textContent = 'Regenerate'; busy = false; } };
+        type();
+      }, 1700);
+    }
+
+    /* ── FEATURES ── */
+    function selTab(el, id) {
+      document.querySelectorAll('.feat-tab').forEach(t => t.classList.remove('on'));
+      el.classList.add('on');
+      document.querySelectorAll('.feat-demo-screen').forEach(d => d.classList.remove('on'));
+      document.getElementById('fd-' + id).classList.add('on');
+      if (id === 'context') resetCtx();
+    }
+
+    // Context demo
+    let ctxDone = false;
+    function resetCtx() {
+      ctxDone = false;
+      const t = document.getElementById('ctx-thread');
+      t.innerHTML = `<div class="ctx-msg them">Hi — could you send over the revised pricing before Thursday? We'd like to review before the call.</div>
+        <div class="ctx-msg ctx-typing"><span class="tdots"><span></span><span></span><span></span></span> Inboxd reading thread...</div>`;
+      const btn = document.getElementById('ctx-btn');
+      btn.disabled = false; btn.textContent = 'Generate reply';
+      document.getElementById('ctx-tag').textContent = '';
+    }
+
+    function runCtx() {
+      if (ctxDone) { resetCtx(); return; }
+      const btn = document.getElementById('ctx-btn');
+      btn.disabled = true;
+      setTimeout(() => {
+        const t = document.getElementById('ctx-thread');
+        t.querySelector('.ctx-typing').remove();
+        const reply = document.createElement('div');
+        reply.className = 'ctx-msg us';
+        reply.style.cssText = 'opacity:0;transition:opacity 0.3s ease';
+        t.appendChild(reply);
+        requestAnimationFrame(() => reply.style.opacity = '1');
+        const txt = "Hi James — I'll have the revised pricing over by Wednesday EOD, well ahead of Thursday.";
+        let i = 0;
+        const type = () => { if (i < txt.length) { reply.textContent += txt[i++]; setTimeout(type, 18); } else { btn.disabled = false; btn.textContent = 'Reset'; ctxDone = true; document.getElementById('ctx-tag').textContent = '← generated in 1.8s'; } };
+        type();
+      }, 1200);
+    }
+
+    // Tone demo
+    const tones = {
+      formal:     "Dear James, I hope this message finds you well. Please find the revised pricing attached for your review prior to Thursday's call.",
+      casual:     "Hey James! Attaching the revised pricing now — should have everything you need before Thursday. Let me know if you have questions!",
+      assertive:  "James — revised pricing is attached. Review before Thursday. Let me know if anything needs adjusting.",
+      empathetic: "Hi James, totally understand you want time to review with the team. I've attached the revised pricing — hope it has everything you need. Looking forward to Thursday!"
+    };
+
+    function selTone(el, tone) {
+      document.querySelectorAll('.tone-btn').forEach(b => b.classList.remove('on'));
+      el.classList.add('on');
+      const out = document.getElementById('tone-out');
+      out.style.opacity = '0';
+      setTimeout(() => { out.textContent = tones[tone]; out.style.opacity = '1'; }, 150);
+    }
+
+    // Compose demo
+    const composeMap = {
+      'decline':   "Thank you so much for the invitation. Unfortunately I'm not available at that time — would it be possible to find another slot that works for both of us?",
+      'follow up': "Hi, just wanted to circle back on my previous message. Please let me know if you've had a chance to review — happy to answer any questions.",
+      'thank':     "Thank you so much — I really appreciate you taking the time. It means a lot and I'm looking forward to what's ahead.",
+      'reschedule':"Something's come up on my end and I need to reschedule. Would you have availability later this week or early next?",
+      'apologize': "I sincerely apologize for the delay — this fell through the cracks on my end. I'll make sure it doesn't happen again.",
+      'introduce': "Hi, I'm reaching out to introduce myself. I'd love to connect and learn more about what you're working on — would you be open to a brief call?",
+    };
+
+    let composeTimer;
+    function composeType() {
+      const val = document.getElementById('compose-in').value;
+      document.getElementById('compose-cc').textContent = val.length;
+      const out = document.getElementById('compose-out');
+      clearTimeout(composeTimer);
+      if (!val.trim()) { out.textContent = 'Start typing above...'; out.classList.add('ph'); return; }
+      out.textContent = 'Thinking...'; out.classList.add('ph');
+      composeTimer = setTimeout(() => {
+        const lower = val.toLowerCase();
+        let result = null;
+        for (const [k, v] of Object.entries(composeMap)) { if (lower.includes(k)) { result = v; break; } }
+        if (!result) result = `Hi — ${val.trim().toLowerCase()}. Please let me know if you need anything further.`;
+        out.classList.remove('ph'); out.textContent = '';
+        let i = 0;
+        const type = () => { if (i < result.length) { out.textContent += result[i++]; setTimeout(type, 13); } };
+        type();
+      }, 550);
+    }
+
+    /* ── REVEAL ── */
+    function chkReveal() {
+      document.querySelectorAll('.reveal').forEach(el => {
+        if (el.getBoundingClientRect().top < window.innerHeight * 0.92) { el.classList.remove('hidden'); el.classList.add('visible'); }
+      });
+    }
+    window.addEventListener('load', () => {
+      document.querySelectorAll('.reveal').forEach(el => { if (el.getBoundingClientRect().top > window.innerHeight * 0.92) el.classList.add('hidden'); });
+      chkReveal();
+    });
+    window.addEventListener('scroll', chkReveal, { passive: true });
+    setTimeout(chkReveal, 200);
+  </script>
+</body>
+</html>
