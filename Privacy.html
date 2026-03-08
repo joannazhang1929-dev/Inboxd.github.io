@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Inboxd</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <style>
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2');
+      font-weight: 400;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Medium.woff2') format('woff2');
+      font-weight: 500;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2');
+      font-weight: 600;
+    }
+    @font-face {
+      font-family: 'Geist';
+      src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Bold.woff2') format('woff2');
+      font-weight: 700;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:      #161618;
+      --bg2:     #1E1E21;
+      --bg3:     #252528;
+      --border:  rgba(255,255,255,0.07);
+      --border2: rgba(255,255,255,0.12);
+      --white:   #F0EFF0;
+      --dim:     #888890;
+      --dim2:    #555560;
+      --accent:  #4F7FFF;
+      --geist:   'Geist', system-ui, sans-serif;
+      --mono:    'DM Mono', 'Courier New', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--geist);
+      background: var(--bg);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      background: rgba(22,22,24,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--geist);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: -0.03em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--dim);
+      text-decoration: none;
+      transition: color 0.15s;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      background: var(--white);
+      color: var(--bg) !important;
+      font-size: 0.78rem !important;
+      font-weight: 600 !important;
+      padding: 0.45rem 1.1rem;
+      border-radius: 6px;
+      text-decoration: none;
+      letter-spacing: -0.02em;
+      transition: opacity 0.15s;
+    }
+
+    .nav-cta:hover { opacity: 0.88; }
+
+    /* ── PAGE ── */
+    .page {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 7rem 2rem 6rem;
+    }
+
+    .page-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--dim2);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .page-eyebrow::before {
+      content: '';
+      display: block;
+      width: 18px;
+      height: 1px;
+      background: var(--dim2);
+    }
+
+    .page-title {
+      font-family: var(--geist);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: var(--white);
+      line-height: 1.05;
+      margin-bottom: 0.8rem;
+    }
+
+    .page-date {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--dim2);
+      letter-spacing: 0.08em;
+      margin-bottom: 3.5rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── SECTIONS ── */
+    .term {
+      margin-bottom: 2.5rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .term:last-of-type {
+      border-bottom: none;
+    }
+
+    .term-num {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .term-title {
+      font-family: var(--geist);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: -0.025em;
+      margin-bottom: 0.9rem;
+    }
+
+    .term p {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.75;
+      font-weight: 300;
+      letter-spacing: -0.005em;
+      margin-bottom: 0.6rem;
+    }
+
+    .term p:last-child { margin-bottom: 0; }
+
+    .term ul {
+      list-style: none;
+      margin-top: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .term ul li {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.65;
+      font-weight: 300;
+      padding-left: 1.2rem;
+      position: relative;
+      letter-spacing: -0.005em;
+    }
+
+    .term ul li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--dim2);
+      font-size: 0.75rem;
+    }
+
+    .term a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+
+    .term a:hover { opacity: 0.75; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.4rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      font-family: var(--geist);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--dim2);
+      letter-spacing: -0.03em;
+    }
+
+    .footer-copy { font-size: 0.68rem; color: var(--dim2); }
+
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-size: 0.72rem;
+      color: var(--dim2);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: var(--white); }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 1.2rem; }
+      .nav-links { display: none; }
+      .page { padding: 5rem 1.2rem 4rem; }
+      footer { flex-direction: column; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">Inboxd</a>
+    <ul class="nav-links">
+      <li><a href="index.html#features">Features</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#reviews">Reviews</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <a href="https://form.jotform.com/260275308450251" class="nav-cta">Get Access</a>
+  </nav>
+
+  <!-- CONTENT -->
+  <div class="page">
+
+    <div class="page-eyebrow">Legal</div>
+    <h1 class="page-title">Privacy<br>Policy</h1>
+    <div class="page-date">Effective Date: February 2, 2026 &nbsp;·&nbsp; Inboxd Inc. &nbsp;·&nbsp; British Columbia, Canada</div>
+
+    <div class="term">
+      <div class="term-num">01</div>
+      <div class="term-title">Information We Collect</div>
+      <p>We do not store or read your emails. Email content is processed temporarily only to generate suggested responses and is never stored. We may collect:</p>
+      <ul>
+        <li><strong style="color:rgba(255,255,255,0.6);font-weight:500;">Account Information</strong> — Name, email address, and password for account creation and authentication</li>
+        <li><strong style="color:rgba(255,255,255,0.6);font-weight:500;">Payment Information (optional)</strong> — Payment methods for subscription tiers. We do not store full credit card details; all payments are processed via secure third-party providers (e.g., Stripe)</li>
+      </ul>
+    </div>
+
+    <div class="term">
+      <div class="term-num">02</div>
+      <div class="term-title">How We Use Your Information</div>
+      <p>We use your information solely to:</p>
+      <ul>
+        <li>Provide and improve the Service</li>
+        <li>Manage accounts and authentication</li>
+        <li>Process payments for premium features</li>
+        <li>Communicate updates about the Service</li>
+      </ul>
+      <p style="margin-top:0.8rem;">We do not read your emails, sell your data to any third-party service, or store your emails.</p>
+    </div>
+
+    <div class="term">
+      <div class="term-num">03</div>
+      <div class="term-title">Third-Party Services</div>
+      <ul>
+        <li>Payments and authentication rely on trusted third-party providers</li>
+        <li>Inboxd is not responsible for third-party privacy policies or practices</li>
+      </ul>
+    </div>
+
+    <div class="term">
+      <div class="term-num">04</div>
+      <div class="term-title">Data Security</div>
+      <ul>
+        <li>We implement reasonable security measures to protect account and payment information</li>
+        <li>No system is completely secure. By using the Service, you acknowledge and accept this risk</li>
+      </ul>
+    </div>
+
+    <div class="term">
+      <div class="term-num">05</div>
+      <div class="term-title">Data Retention</div>
+      <ul>
+        <li><strong style="color:rgba(255,255,255,0.6);font-weight:500;">Email content</strong> — Never stored</li>
+        <li><strong style="color:rgba(255,255,255,0.6);font-weight:500;">Account information</strong> — Retained until account deletion</li>
+        <li><strong style="color:rgba(255,255,255,0.6);font-weight:500;">Payment information</strong> — Minimal storage only if required by the provider; full credit card details are never stored</li>
+      </ul>
+    </div>
+
+    <div class="term">
+      <div class="term-num">06</div>
+      <div class="term-title">User Control</div>
+      <ul>
+        <li>You may delete your account at any time; your account data will be removed from our systems</li>
+        <li>You may opt out of providing optional information (e.g., payment info), though this may limit access to paid features</li>
+      </ul>
+    </div>
+
+    <div class="term">
+      <div class="term-num">07</div>
+      <div class="term-title">Children's Privacy</div>
+      <ul>
+        <li>Inboxd is not intended for users under 13 (or local age of consent)</li>
+        <li>We do not knowingly collect information from children</li>
+      </ul>
+    </div>
+
+    <div class="term">
+      <div class="term-num">08</div>
+      <div class="term-title">Changes to This Privacy Policy</div>
+      <ul>
+        <li>We may update this Privacy Policy periodically</li>
+        <li>Updates are effective immediately upon posting</li>
+        <li>Users are encouraged to review the policy regularly</li>
+      </ul>
+    </div>
+
+    <div class="term">
+      <div class="term-num">09</div>
+      <div class="term-title">Contact</div>
+      <p>For questions about privacy or data handling, contact us at <a href="mailto:Support@inboxdapp.com">Support@inboxdapp.com</a>.</p>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">Inboxd</span>
+    <span class="footer-copy">© 2026 Inboxd Inc.</span>
+    <div class="footer-links">
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="http://instagram.com/inboxdapp">Instagram</a>
+    </div>
+  </footer>
+
+</body>
+</html>
